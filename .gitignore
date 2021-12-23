@@ -1,6 +1,23 @@
 /config
 config2/*
 
+# Ignore folders.
+.storage
+.cloud
+.google.token
+.github
+.devcontainer
+.mypy_cache
+.pytest_cache
+.vscode
+config/*
+
+
+# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml
+
 tests/testing_config/deps
 tests/testing_config/home-assistant.log*
 
