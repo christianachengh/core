@@ -1,20 +1,25 @@
 """Support for Ecobee binary sensors."""
 from __future__ import annotations
 
-# from pyecobee import Ecobee
-from datetime import datetime, timedelta
-import json
-
-import pytz
-
 from homeassistant.components.binary_sensor import (
-    DEVICE_CLASS_DRYCONTACT,
     DEVICE_CLASS_OCCUPANCY,
+    # DEVICE_CLASS_DRYCONTACT,
+    DEVICE_CLASS_WINDOW,
     BinarySensorEntity,
 )
 from homeassistant.helpers.entity import DeviceInfo
 
-from .const import DOMAIN, ECOBEE_MODEL_TO_NAME, MANUFACTURER
+from .const import (
+    DOMAIN,
+    ECOBEE_MODEL_TO_NAME,
+    MANUFACTURER,
+)
+
+import json
+
+# from pyecobee import Ecobee
+from datetime import datetime, timedelta
+import pytz
 
 # from homeassistant.helpers.entity import Entity
 
@@ -160,7 +165,8 @@ class EcobeeBinarySensor(BinarySensorEntity):
         """Return the class of this sensor, from DEVICE_CLASSES."""
         if "Occupancy" in self._name or "occupancy" in self._name:
             return DEVICE_CLASS_OCCUPANCY
-        return DEVICE_CLASS_DRYCONTACT
+        # return DEVICE_CLASS_DRYCONTACT
+        return DEVICE_CLASS_WINDOW
 
     async def async_update(self):
         """Get the latest state of the sensor."""
@@ -246,9 +252,15 @@ class EcobeeBinarySensorDryContact(BinarySensorEntity):
         return self._state == "0"
 
     @property
+    def is_close(self):
+        """Return the status of the drycontact sensor."""
+        return self._state == "1"
+
+    @property
     def device_class(self):
         """Return the class of this sensor, from DEVICE_CLASSES."""
-        return DEVICE_CLASS_DRYCONTACT
+        # return DEVICE_CLASS_DRYCONTACT
+        return DEVICE_CLASS_WINDOW
 
     async def async_update(self):
         """Get the latest state of the drycontact sensor."""
